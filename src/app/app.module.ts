@@ -32,6 +32,8 @@ import { PostsResolveService } from './posts-resolve.service';
 import { PostsViewComponent } from './posts-view/posts-view.component';
 import { PostService } from './post.service';
 import { SearchBoxComponent } from './search-box/search-box.component';
+import { FromNowPipe } from './from-now.pipe';
+
 
 @NgModule({
   imports: [
@@ -61,7 +63,8 @@ import { SearchBoxComponent } from './search-box/search-box.component';
     PostsByCategoryComponent,
     PostsListComponent,
     PostsViewComponent,
-    SearchBoxComponent
+    SearchBoxComponent,
+    FromNowPipe
   ],
   providers: [
     BackendUriProvider,
