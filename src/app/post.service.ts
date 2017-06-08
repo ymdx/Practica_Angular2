@@ -5,6 +5,7 @@ import "rxjs/add/operator/map";
 
 import { BackendUri } from './settings';
 import { Post } from './post';
+import { Category } from './category';
 
 @Injectable()
 export class PostService {
@@ -14,6 +15,8 @@ export class PostService {
     @Inject(BackendUri) private _backendUri) { }
 
   getPosts(): Observable<Post[]> {
+
+
 
     /*----------------------------------------------------------------------------------------------|
      | ~~~ Pink Path ~~~                                                                            |
@@ -30,8 +33,11 @@ export class PostService {
      |   - Ordenación: _sort=publicationDate&_order=DESC                                            |
      |----------------------------------------------------------------------------------------------*/
 
+   const postFilterPublication: string = `publicationDate_lte=${new Date().getTime()}`;
+   const postOrderPublication: string = '_sort=publicationDate&_order=DESC';
+
     return this._http
-      .get(`${this._backendUri}/posts`)
+      .get(`${this._backendUri}/posts?${postOrderPublication}&${postFilterPublication} `)
       .map((response: Response): Post[] => Post.fromJsonToList(response.json()));
   }
 
