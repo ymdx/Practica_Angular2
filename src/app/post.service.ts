@@ -60,8 +60,12 @@ export class PostService {
      |   - Ordenación: _sort=publicationDate&_order=DESC                                            |
      |----------------------------------------------------------------------------------------------*/
 
+    const filterPostByAuthor: string = `author.id=${id}`;
+    const filterPostByDate: string = `publicationDate_lte=${new Date().getTime()}`;
+    const orderPost: string = '_sort=publicationDate&_order=DESC';
+
     return this._http
-      .get(`${this._backendUri}/posts`)
+      .get(`${this._backendUri}/posts?${filterPostByAuthor}&${filterPostByDate}&${orderPost}`)
       .map((response: Response): Post[] => Post.fromJsonToList(response.json()));
   }
 

@@ -1,8 +1,9 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { NativeWindow } from './../window';
 import { Post } from './../post';
+import { User } from './../user';
 
 @Component({
   templateUrl: './post-details.component.html',
@@ -13,6 +14,7 @@ export class PostDetailsComponent implements OnInit {
   post: Post;
 
   constructor(
+    private _router: Router,
     private _activatedRoute: ActivatedRoute,
     @Inject(NativeWindow) private _window) { }
 
@@ -32,6 +34,10 @@ export class PostDetailsComponent implements OnInit {
    | para hacer esto necesitas inyectar como dependencia el Router de la app. La ruta a navegar es '/posts/users', |
    | pasando como parámetro el identificador del autor.                                                            |
    |---------------------------------------------------------------------------------------------------------------*/
+
+   goToUserPosts(user: User): void {
+     this._router.navigate(['posts', 'users', user.id]);
+   }
 
   /*--------------------------------------------------------------------------------------------------------------------|
    | ~~~ Yellow Path ~~~                                                                                                |
