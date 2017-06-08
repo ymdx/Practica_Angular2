@@ -7,7 +7,12 @@
 | referencia del formulario en él.                                                            |
 |~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|
 -->
-<form novalidate>
+  <form
+    ngForm
+    #postForm="ngForm"
+    (ngSubmit)="submitPost(postForm)"
+    novalidate  
+  >
   <!--
   |~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|
   | Purple Path                                                                                     |
@@ -16,9 +21,14 @@
   | el nombre que se ha definido en la entidad Post. Además, este campo debe ser obligatorio.       |
   |~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|
   -->
-  <input type="text"
-         placeholder="Título"
-         class="u-full-width">
+  <input
+    type="text"
+    [ngModel]="post?.title"
+    name="title"
+    placeholder="Título"
+    class="u-full-width"
+    required
+  >
   <!--
   |~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|
   | Purple Path                                                                                     |
@@ -27,9 +37,15 @@
   | el nombre que se ha definido en la entidad Post. Además, este campo debe ser obligatorio.       |
   |~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|
   -->
-  <textarea placeholder="Introduce tu historia"
-            class="u-full-width georgia-font"
-            autogrow></textarea>
+  <textarea
+    [ngModel]="post?.intro"
+    name="intro"
+    placeholder="Introduce tu historia"
+    class="u-full-width georgia-font"
+    autogrow
+    required
+  >
+  </textarea>
   <!--
   |~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|
   | Purple Path                                                                                     |
@@ -38,29 +54,37 @@
   | el nombre que se ha definido en la entidad Post. Además, este campo debe ser obligatorio.       |
   |~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|
   -->
-  <textarea placeholder="Cuenta tu historia"
-            class="u-full-width georgia-font"
-            autogrow></textarea>
-  <div>
+  <textarea
+    ngModel
+    [ngModel]="post?.body"
+    ngModel
+    name="body"
+    placeholder="Cuenta tu historia"
+    class="u-full-width georgia-font"
+    autogrow
+    required
+  >
+  </textarea>
     <div>
-      <label (click)="setScheduling(false)">
-        <span class="radio-input" [class.active]="!_publicationDateScheduled"></span>
-        No programar
-      </label>
+      <div>
+        <label (click)="setScheduling(false)">
+          <span class="radio-input" [class.active]="!_publicationDateScheduled"></span>
+          No programar
+        </label>
+      </div>
+      <div>
+        <label (click)="setScheduling(true)">
+          <span class="radio-input" [class.active]="_publicationDateScheduled"></span>
+          Publicar en:
+        </label>
+      </div>
+      <div>
+        <input type="datetime-local"
+              name="publicationDate"
+              [min]="_nowDatetimeLocal"
+              [ngModel]="_nowDatetimeLocal">
+      </div>
     </div>
-    <div>
-      <label (click)="setScheduling(true)">
-        <span class="radio-input" [class.active]="_publicationDateScheduled"></span>
-        Publicar en:
-      </label>
-    </div>
-    <div>
-      <input type="datetime-local"
-             name="publicationDate"
-             [min]="_nowDatetimeLocal"
-             [ngModel]="_nowDatetimeLocal">
-    </div>
-  </div>
   <!--
   |~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|
   | Purple Path                                                              |
@@ -69,6 +93,10 @@
   | válido. Para ello vas a necesitar acceder al 'FormGroup' del formulario. |
   |~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|
   -->
-  <button type="submit"
-          class="button-primary u-pull-right">Publicar</button>
+  <button
+    type="submit"
+    class="button-primary u-pull-right"
+    [disabled]="postForm.invalid">
+    {{ post ? 'Guardar': 'Publicar' }}
+  </button>
 </form>
