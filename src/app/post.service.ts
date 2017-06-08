@@ -92,10 +92,19 @@ export class PostService {
      |   - Ordenación: _sort=publicationDate&_order=DESC                                                |
      |--------------------------------------------------------------------------------------------------*/
 
-    return this._http
-      .get(`${this._backendUri}/posts`)
-      .map((response: Response): Post[] => Post.fromJsonToList(response.json()));
-  }
+    const filterPostByDate: string = `publicationDate_lte=${new Date().getTime()}`;
+     const orderPost: string = '_sort=publicationDate&_order=DESC';
+
+     return this._http
+         .get(`${this._backendUri}/posts?${filterPostByDate}&${orderPost}`)
+         .map((response: Response): Post[] => Post.fromJsonToList(response.json())
+           .filter((post: Post): boolean => post.categories
+             .findIndex((category: Category): boolean => (
+               category.id.toString() === id.toString()
+             )) >= 0
+           )
+         );
+     }
 
   getPostDetails(id: number): Observable<Post> {
     return this._http

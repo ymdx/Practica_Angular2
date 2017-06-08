@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NativeWindow } from './../window';
 import { Post } from './../post';
 import { User } from './../user';
+import { Category } from './../category';
 
 @Component({
   templateUrl: './post-details.component.html',
@@ -47,4 +48,7 @@ export class PostDetailsComponent implements OnInit {
    | pasando como parámetro el identificador de la categoría.                                                           |
    |--------------------------------------------------------------------------------------------------------------------*/
 
+   goToCategoryEvent(category: Category): void {
+     this._router.navigate(['posts', 'categories', category.id]);
+   }
 }
